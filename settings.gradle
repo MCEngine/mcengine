@@ -1,0 +1,4 @@
+rootProject.name = 'mcengine'
+
+include 'api'
+include 'spigot'

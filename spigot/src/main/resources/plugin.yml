@@ -1,0 +1,5 @@
+name: MCEngine
+version: 1.0.0
+main: com.github.mcengine.MCEngine
+author: MCEngine
+description: Template for MCEngine
