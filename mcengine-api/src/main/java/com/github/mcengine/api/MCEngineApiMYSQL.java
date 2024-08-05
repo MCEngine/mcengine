@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MCEngineApiMYSQL {
-    public static Connection getConnection(String host, String database, String username, String password, int port) {
+    public static Connection getConnection(String host, String database, String username, String password, String port) {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, username, password);
         } catch (SQLException e) {
