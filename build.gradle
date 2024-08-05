@@ -80,7 +80,7 @@ subprojects {
     }
 
     // Bukkit server specific configuration
-    if (project.name == 'spigot') {
+    if (project.name == 'spigotmc') {
         processResources {
             def props = [version: version]
             inputs.properties(props)
