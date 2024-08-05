@@ -1,0 +1,8 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    implementation 'org.xerial:sqlite-jdbc:3.46.0.1'
+    implementation 'mysql:mysql-connector-java:8.0.33'    
+}

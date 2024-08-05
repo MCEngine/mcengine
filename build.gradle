@@ -1,0 +1,99 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'java'
+    id 'maven-publish'
+}
+
+version = project.findProperty(project.name + '-version')
+group = 'com.github.mcengine'
+
+allprojects {
+    group = 'com.github.mcengine'
+
+    apply plugin: 'java'
+    apply plugin: 'com.github.johnrengelman.shadow'
+
+    repositories {
+        mavenCentral()
+        mavenLocal()
+          maven {
+            url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+
+            // As of Gradle 5.1, you can limit this to only those
+            // dependencies you expect from it
+            content {
+                includeGroup 'org.bukkit'
+                includeGroup 'org.spigotmc'
+            }
+        }
+        maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+        maven { url = 'https://oss.sonatype.org/content/repositories/central' }
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    // Disable the 'jar' task
+    jar.enabled = false
+
+    // Get submodules info
+    version = project.findProperty(project.name + '-version')
+
+    // Bukkit server
+    if (project.name == 'spigot') {
+        // replace
+        processResources {
+            def props = [version: version]
+            inputs.properties props
+            filteringCharset 'UTF-8'
+            filesMatching('plugin.yml') {
+                expand props
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation project(path: ':mcengine-api', configuration: 'shadow')
+    implementation project(path: ':spigotmc', configuration: 'shadow')
+}
+
+publishing {
+    repositories {
+        maven {
+            name = 'GitHubPackages'
+            url = uri('https://maven.pkg.github.com/MCEngine/mcengine')
+            credentials {
+                username = System.getenv('GIT_USER')
+                password = System.getenv('MCENGINE_GITHUB_TOKEN_PKG')
+            }
+        }
+    }
+    publications {
+        mavenJava(MavenPublication) {
+            from(components.java)
+            artifact shadowJar
+
+            pom {
+                name = 'MCEngine'
+                url = 'https://github.com/MCEngine/mcengine'
+                
+                scm {
+                    connection = 'scm:git:git://github.com/MCEngine/mcengine.git'
+                    developerConnection = 'scm:git:ssh://github.com:MCEngine/mcengine.git'
+                    url = 'https://github.com/MCEngine/mcengine'
+                }
+            }
+        }
+    }
+}
+
+shadowJar {
+    version = version
+    archiveClassifier = null
+    archiveBaseName.set('MCEngine')
+}
+
+jar.enabled = false
+build.dependsOn(shadowJar)
