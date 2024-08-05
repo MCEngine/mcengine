@@ -43,6 +43,10 @@ subprojects {
     // Get submodules info, ensure version property is not null
     version = project.findProperty("${project.name}-version") ?: 'unspecified'
 
+	shadowJar {
+		archiveClassifier = null
+	}
+
     // Publish to GitHub Packages
     publishing {
         repositories {
