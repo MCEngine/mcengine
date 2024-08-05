@@ -4,10 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class MCEngineMYSQL {
-    public static Connection getConnection(String host, String database, String username, String password, int port) {
+public class MCEngineApiSQLITE {
+    public static Connection getConnection(String dbFilePath) {
         try {
-            return DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, username, password);
+            return DriverManager.getConnection("jdbc:sqlite:" + dbFilePath);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -16,7 +16,9 @@ public class MCEngineMYSQL {
 
     public static void closeConnection(Connection connection) {
         try {
-            connection.close();
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
