@@ -57,7 +57,6 @@ subprojects {
         }
         publications {
             mavenJava(MavenPublication) {
-                from(components.java)
                 artifact(tasks.named('shadowJar').get())
 
                 pom {
@@ -105,8 +104,6 @@ publishing {
     }
     publications {
         mavenJava(MavenPublication) {
-            from(components.java)
-
             // Ensure shadowJar task exists before referencing
             if (tasks.findByName('shadowJar')) {
                 artifact tasks.named('shadowJar').get()
