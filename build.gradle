@@ -47,30 +47,32 @@ subprojects {
 		archiveClassifier = null
 	}
 
-    // Publish to GitHub Packages
-    publishing {
-        repositories {
-            maven {
-                name = 'GitHubPackages'
-                url = uri('https://maven.pkg.github.com/MCEngine/mcengine')
-                credentials {
-                    username = System.getenv('GIT_USER')
-                    password = System.getenv('MCENGINE_GITHUB_TOKEN_PKG')
+    if (project.name == 'mcengine-api') {
+        // Publish to GitHub Packages
+        publishing {
+            repositories {
+                maven {
+                    name = 'GitHubPackages'
+                    url = uri('https://maven.pkg.github.com/MCEngine/mcengine')
+                    credentials {
+                        username = System.getenv('GIT_USER')
+                        password = System.getenv('MCENGINE_GITHUB_TOKEN_PKG')
+                    }
                 }
             }
-        }
-        publications {
-            mavenJava(MavenPublication) {
-                artifact(tasks.named('shadowJar').get())
+            publications {
+                mavenJava(MavenPublication) {
+                    artifact(tasks.named('shadowJar').get())
 
-                pom {
-                    name = 'MCEngine'
-                    url = 'https://github.com/MCEngine/mcengine'
-
-                    scm {
-                        connection = 'scm:git:git://github.com/MCEngine/mcengine.git'
-                        developerConnection = 'scm:git:ssh://github.com:MCEngine/mcengine.git'
+                    pom {
+                        name = 'MCEngine'
                         url = 'https://github.com/MCEngine/mcengine'
+
+                        scm {
+                            connection = 'scm:git:git://github.com/MCEngine/mcengine.git'
+                            developerConnection = 'scm:git:ssh://github.com:MCEngine/mcengine.git'
+                            url = 'https://github.com/MCEngine/mcengine'
+                        }
                     }
                 }
             }
@@ -93,38 +95,6 @@ subprojects {
 dependencies {
     implementation project(path: ':mcengine-api', configuration: 'shadow')
     implementation project(path: ':spigotmc', configuration: 'shadow')
-}
-
-publishing {
-    repositories {
-        maven {
-            name = 'GitHubPackages'
-            url = uri('https://maven.pkg.github.com/MCEngine/mcengine')
-            credentials {
-                username = System.getenv('GIT_USER')
-                password = System.getenv('MCENGINE_GITHUB_TOKEN_PKG')
-            }
-        }
-    }
-    publications {
-        mavenJava(MavenPublication) {
-            // Ensure shadowJar task exists before referencing
-            if (tasks.findByName('shadowJar')) {
-                artifact tasks.named('shadowJar').get()
-            }
-
-            pom {
-                name = 'MCEngine'
-                url = 'https://github.com/MCEngine/mcengine'
-                
-                scm {
-                    connection = 'scm:git:git://github.com/MCEngine/mcengine.git'
-                    developerConnection = 'scm:git:ssh://github.com:MCEngine/mcengine.git'
-                    url = 'https://github.com/MCEngine/mcengine'
-                }
-            }
-        }
-    }
 }
 
 shadowJar {
