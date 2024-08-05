@@ -3,6 +3,6 @@ plugins {
 }
 
 dependencies {
-    implementation 'org.xerial:sqlite-jdbc:3.46.0.1'
-    implementation 'mysql:mysql-connector-java:8.0.33'    
+    compileOnly 'org.xerial:sqlite-jdbc:3.46.0.1'
+    compileOnly 'mysql:mysql-connector-java:8.0.33'    
 }
