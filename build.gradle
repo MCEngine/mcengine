@@ -4,7 +4,7 @@ plugins {
     id 'maven-publish'
 }
 
-version = project.findProperty(project.name + '-version')
+version = project.findProperty("${project.name}-version") ?: 'unspecified'
 group = 'com.github.mcengine'
 
 allprojects {
@@ -33,22 +33,55 @@ allprojects {
 
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'maven-publish'
 
-    // Disable the 'jar' task
-    jar.enabled = false
+    // Disable the 'jar' task if needed
+    tasks.named('jar').configure {
+        enabled = false
+    }
 
-    // Get submodules info
-    version = project.findProperty(project.name + '-version')
+    // Get submodules info, ensure version property is not null
+    version = project.findProperty("${project.name}-version") ?: 'unspecified'
 
-    // Bukkit server
+    // Publish to GitHub Packages
+    publishing {
+        repositories {
+            maven {
+                name = 'GitHubPackages'
+                url = uri('https://maven.pkg.github.com/MCEngine/mcengine')
+                credentials {
+                    username = System.getenv('GIT_USER')
+                    password = System.getenv('MCENGINE_GITHUB_TOKEN_PKG')
+                }
+            }
+        }
+        publications {
+            mavenJava(MavenPublication) {
+                from(components.java)
+                artifact(tasks.named('shadowJar').get())
+
+                pom {
+                    name = 'MCEngine'
+                    url = 'https://github.com/MCEngine/mcengine'
+
+                    scm {
+                        connection = 'scm:git:git://github.com/MCEngine/mcengine.git'
+                        developerConnection = 'scm:git:ssh://github.com:MCEngine/mcengine.git'
+                        url = 'https://github.com/MCEngine/mcengine'
+                    }
+                }
+            }
+        }
+    }
+
+    // Bukkit server specific configuration
     if (project.name == 'spigot') {
-        // replace
         processResources {
             def props = [version: version]
-            inputs.properties props
+            inputs.properties(props)
             filteringCharset 'UTF-8'
             filesMatching('plugin.yml') {
-                expand props
+                expand(props)
             }
         }
     }
@@ -73,7 +106,11 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from(components.java)
-            artifact shadowJar
+
+            // Ensure shadowJar task exists before referencing
+            if (tasks.findByName('shadowJar')) {
+                artifact tasks.named('shadowJar').get()
+            }
 
             pom {
                 name = 'MCEngine'
@@ -95,5 +132,8 @@ shadowJar {
     archiveBaseName.set('MCEngine')
 }
 
-jar.enabled = false
+// Disable the 'jar' task if needed
+tasks.named('jar').configure {
+    enabled = false
+}
 build.dependsOn(shadowJar)
