@@ -2,8 +2,10 @@ package com.github.mcengine.api;
 
 import java.util.Optional;
 
-public class MCEngineApiUtil {
-    public static String getEnvOrConfig(Object instance, String envVarName, String configKey) {
+import org.bukkit.plugin.java.JavaPlugin;
+
+public class MCEngineApiUtil extends JavaPlugin {
+    public static String getEnvOrConfig(JavaPlugin instance, String envVarName, String configKey) {
         try {
             String value = System.getenv(envVarName);
             return Optional.ofNullable(value).orElseGet(() -> {
