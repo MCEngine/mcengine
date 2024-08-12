@@ -2,7 +2,7 @@
 
 This plugin will always be up-to-date with the latest version of SpigotMC
 
-# `Author`
+# `Member`
 
 |Status|GitHub|GitLab|Email|
 |-|-|-|-|
