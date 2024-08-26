@@ -1,0 +1,24 @@
+name: Build Job
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GIT_USER: ${{ secrets.GIT_USER }}
+      MCENGINE_GITHUB_TOKEN_PKG: ${{ secrets.MCENGINE_GITHUB_TOKEN_PKG }}
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+      - name: Set Gradle wrapper executable permissions
+        run: chmod +x gradlew
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '7.4.2'  # Specify your Gradle version if needed
+      - name: Build with Gradle
+        run: ./gradlew build
