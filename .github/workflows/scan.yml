@@ -11,7 +11,11 @@ jobs:
     steps:
       - name: Checkout project sources
         uses: actions/checkout@v4
-      
+
+      env:
+        GIT_USER: ${{ secrets.GIT_USER }}
+        MCENGINE_GITHUB_TOKEN_PKG: ${{ secrets.MCENGINE_GITHUB_TOKEN_PKG }}
+
       - name: Gradle Wrapper
         run: gradle wrapper
 
