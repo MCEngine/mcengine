@@ -1,0 +1,33 @@
+name: Gradle Jobs
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  dependency-submission:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout project sources
+      uses: actions/checkout@v4
+
+    - name: Generate and submit dependency graph
+      uses: gradle/actions/dependency-submission@v3
+      with:
+        build-scan-publish: true
+        build-scan-terms-of-use-url: "https://gradle.com/terms-of-service"
+        build-scan-terms-of-use-agree: "yes"
+
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GIT_USER: ${{ secrets.GIT_USER }}
+      MCENGINE_GITHUB_TOKEN_PKG: ${{ secrets.MCENGINE_GITHUB_TOKEN_PKG }}
+    steps:
+    - name: Checkout sources
+      uses: actions/checkout@v4
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v3
+    - name: Build with Gradle
+      run: ./gradlew build
