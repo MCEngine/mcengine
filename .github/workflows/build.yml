@@ -14,11 +14,17 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
+
+      - name: Gradle Wrapper
+        run: gradle wrapper
+
       - name: Set Gradle wrapper executable permissions
         run: chmod +x gradlew
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: '7.4.2'  # Specify your Gradle version if needed
+
       - name: Build with Gradle
         run: ./gradlew build
