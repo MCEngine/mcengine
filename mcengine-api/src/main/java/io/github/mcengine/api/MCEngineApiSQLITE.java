@@ -1,4 +1,4 @@
-package com.github.mcengine.api;
+package io.github.mcengine.api;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

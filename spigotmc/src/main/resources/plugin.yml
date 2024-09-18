@@ -1,6 +1,6 @@
 name: MCEngine
 version: ${version}
-main: com.github.mcengine.MCEngine
+main: io.github.mcengine.MCEngine
 author: MCEngine
 description: MCEngine Core
 api-version: 1.18

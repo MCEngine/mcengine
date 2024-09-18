@@ -5,10 +5,10 @@ plugins {
 }
 
 version = project.findProperty("${project.name}-version") ?: 'unspecified'
-group = 'com.github.mcengine'
+group = 'io.github.mcengine'
 
 allprojects {
-    group = 'com.github.mcengine'
+    group = 'io.github.mcengine'
 
     apply plugin: 'java'
     apply plugin: 'com.github.johnrengelman.shadow'
