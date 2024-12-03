@@ -21,70 +21,43 @@ public class MCEngineApiUtil extends JavaPlugin {
 
     // For Clazz
     private Object initialize(String className, Object... constructorArgs) throws Exception {
+        // Load the class
         Class<?> clazz = Class.forName(className);
     
-        // Determine parameter types for the constructor
-        Class<?>[] parameterTypes = new Class[constructorArgs.length];
-        for (int i = 0; i < constructorArgs.length; i++) {
-            parameterTypes[i] = mapWrapperToPrimitive(constructorArgs[i] != null ? constructorArgs[i].getClass() : Object.class);
+        // Handle no arguments case
+        if (constructorArgs == null || constructorArgs.length == 0) {
+            return clazz.getConstructor().newInstance(); // No-arg constructor
         }
     
-        // Find a matching constructor, if available
-        try {
-            return clazz.getConstructor(parameterTypes).newInstance(constructorArgs);
-        } catch (NoSuchMethodException e) {
-            // Attempt to find a more compatible constructor if direct match fails
-            for (Constructor<?> constructor : clazz.getConstructors()) {
-                if (isCompatible(constructor.getParameterTypes(), constructorArgs)) {
-                    return constructor.newInstance(constructorArgs);
-                }
-            }
-            throw new NoSuchMethodException("No suitable constructor found for class: " + className);
+        // Determine parameter types
+        Class<?>[] parameterTypes = new Class[constructorArgs.length];
+        for (int i = 0; i < constructorArgs.length; i++) {
+            parameterTypes[i] = mapWrapperToPrimitive(constructorArgs[i].getClass());
         }
+    
+        // Find and invoke the matching constructor
+        return clazz.getConstructor(parameterTypes).newInstance(constructorArgs);
     }
     
     private void invokeMethod(Object instance, String methodName, Object... args) {
         try {
-            // Determine parameter types for the method
+            // Determine parameter types
             Class<?>[] argTypes = new Class[args.length];
             for (int i = 0; i < args.length; i++) {
-                argTypes[i] = mapWrapperToPrimitive(args[i] != null ? args[i].getClass() : Object.class);
+                argTypes[i] = mapWrapperToPrimitive(args[i].getClass());
             }
     
-            // Find the matching method and invoke it
-            Method method = findCompatibleMethod(instance.getClass(), methodName, argTypes);
-            if (method != null) {
-                method.setAccessible(true);
-                method.invoke(instance, args);
-            } else {
-                throw new NoSuchMethodException("No suitable method found: " + methodName);
-            }
+            // Find and invoke the method
+            instance.getClass().getMethod(methodName, argTypes).invoke(instance, args);
         } catch (Exception e) {
-            throw new RuntimeException("Error invoking method '" + methodName + "': " + e.getMessage(), e);
+            throw new RuntimeException(
+                "Error invoking method '" + methodName + "': " + e.getMessage(),
+                e
+            );
         }
     }
     
-    private Method findCompatibleMethod(Class<?> clazz, String methodName, Class<?>[] argTypes) {
-        for (Method method : clazz.getMethods()) {
-            if (method.getName().equals(methodName) && isCompatible(method.getParameterTypes(), argTypes)) {
-                return method;
-            }
-        }
-        return null;
-    }
-    
-    private boolean isCompatible(Class<?>[] parameterTypes, Object[] args) {
-        if (parameterTypes.length != args.length) {
-            return false;
-        }
-        for (int i = 0; i < parameterTypes.length; i++) {
-            if (args[i] != null && !parameterTypes[i].isAssignableFrom(mapWrapperToPrimitive(args[i].getClass()))) {
-                return false;
-            }
-        }
-        return true;
-    }
-    
+    // Map wrapper classes to primitives (or return the original class if no mapping is needed)
     private Class<?> mapWrapperToPrimitive(Class<?> clazz) {
         if (clazz == Double.class) return double.class;
         if (clazz == Integer.class) return int.class;
@@ -94,6 +67,6 @@ public class MCEngineApiUtil extends JavaPlugin {
         if (clazz == Character.class) return char.class;
         if (clazz == Byte.class) return byte.class;
         if (clazz == Short.class) return short.class;
-        return clazz; // Return original if no mapping needed
-    }    
+        return clazz; // Return the original class if no mapping is needed
+    }      
 }
