@@ -28,7 +28,7 @@ public class MCEngineApiUtil extends JavaPlugin {
      * @throws Exception if the class cannot be found, the constructor cannot be accessed, 
      *                   or instantiation fails for any reason
      */
-    private Object initialize(String className, Object... constructorArgs) throws Exception {
+    public static Object initialize(String className, Object... constructorArgs) throws Exception {
         // Load the class
         Class<?> clazz = Class.forName(className);
     
@@ -55,7 +55,7 @@ public class MCEngineApiUtil extends JavaPlugin {
      * @param args the arguments to pass to the method
      * @throws RuntimeException if the method cannot be found, accessed, or invoked
      */
-    private void invokeMethod(Object instance, String methodName, Object... args) {
+    public static void invokeMethod(Object instance, String methodName, Object... args) {
         try {
             // Determine parameter types
             Class<?>[] argTypes = new Class[args.length];
@@ -79,7 +79,7 @@ public class MCEngineApiUtil extends JavaPlugin {
      * @param clazz the class to map
      * @return the corresponding primitive type, or the original class if no mapping exists
      */
-    private Class<?> mapWrapperToPrimitive(Class<?> clazz) {
+    private static Class<?> mapWrapperToPrimitive(Class<?> clazz) {
         if (clazz == Double.class) return double.class;
         if (clazz == Integer.class) return int.class;
         if (clazz == Long.class) return long.class;
