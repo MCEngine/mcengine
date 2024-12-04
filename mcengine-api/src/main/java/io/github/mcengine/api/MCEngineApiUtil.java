@@ -19,7 +19,15 @@ public class MCEngineApiUtil extends JavaPlugin {
         }
     }
 
-    // For Clazz
+    /**
+     * Initializes an instance of the specified class using the provided constructor arguments.
+     *
+     * @param className the fully qualified name of the class to initialize
+     * @param constructorArgs the arguments to pass to the constructor; can be null or empty for a no-arg constructor
+     * @return an instance of the specified class
+     * @throws Exception if the class cannot be found, the constructor cannot be accessed, 
+     *                   or instantiation fails for any reason
+     */
     private Object initialize(String className, Object... constructorArgs) throws Exception {
         // Load the class
         Class<?> clazz = Class.forName(className);
@@ -38,7 +46,15 @@ public class MCEngineApiUtil extends JavaPlugin {
         // Find and invoke the matching constructor
         return clazz.getConstructor(parameterTypes).newInstance(constructorArgs);
     }
-    
+
+    /**
+     * Invokes a method on the given instance with the specified arguments.
+     *
+     * @param instance the object on which the method is to be invoked
+     * @param methodName the name of the method to invoke
+     * @param args the arguments to pass to the method
+     * @throws RuntimeException if the method cannot be found, accessed, or invoked
+     */
     private void invokeMethod(Object instance, String methodName, Object... args) {
         try {
             // Determine parameter types
@@ -57,7 +73,12 @@ public class MCEngineApiUtil extends JavaPlugin {
         }
     }
     
-    // Map wrapper classes to primitives (or return the original class if no mapping is needed)
+    /**
+     * Maps a wrapper class to its corresponding primitive type.
+     *
+     * @param clazz the class to map
+     * @return the corresponding primitive type, or the original class if no mapping exists
+     */
     private Class<?> mapWrapperToPrimitive(Class<?> clazz) {
         if (clazz == Double.class) return double.class;
         if (clazz == Integer.class) return int.class;
@@ -67,6 +88,6 @@ public class MCEngineApiUtil extends JavaPlugin {
         if (clazz == Character.class) return char.class;
         if (clazz == Byte.class) return byte.class;
         if (clazz == Short.class) return short.class;
-        return clazz; // Return the original class if no mapping is needed
+        return clazz;
     }      
 }
