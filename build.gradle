@@ -33,7 +33,6 @@ allprojects {
 
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'maven-publish'
 
     // Disable the 'jar' task if needed
     tasks.named('jar').configure {
@@ -48,7 +47,7 @@ subprojects {
 	}
 
     if (project.name == 'mcengine-api') {
-        // Publish to GitHub Packages
+        apply plugin: 'maven-publish'
         publishing {
             repositories {
                 maven {
