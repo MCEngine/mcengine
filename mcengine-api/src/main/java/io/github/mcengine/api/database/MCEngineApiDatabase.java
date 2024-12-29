@@ -1,7 +1,10 @@
 package io.github.mcengine.api.database;
 
+import io.github.mcengine.api.database.mysql.MCEngineApiMYSQL;
+import io.github.mcengine.api.database.sqlite.MCEngineApiSQLITE;
+
 class MCEngineApiDatabase {
-    private final DatabaseProvider databaseProvider;
+    private final MCEngineApiDatabaseProvider databaseProvider;
 
     public MCEngineApiDatabase(String dbType, String[] args) {
         switch (dbType.toLowerCase()) {
@@ -18,7 +21,7 @@ class MCEngineApiDatabase {
         }
     }
 
-    public DatabaseProvider getDatabaseProvider() {
+    public MCEngineApiDatabaseProvider getDatabaseProvider() {
         return databaseProvider;
     }
 }
