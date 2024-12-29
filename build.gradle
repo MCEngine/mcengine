@@ -39,12 +39,27 @@ subprojects {
         enabled = false
     }
 
+    def excludeBuildProjects = [':server']
+    if (project.path in excludeBuildProjects) {
+        tasks.matching { it.name == 'shadowJar' }.configureEach {
+            enabled = false
+        }
+    }
+
     // Get submodules info, ensure version property is not null
     version = project.findProperty("${project.name}-version") ?: 'unspecified'
 
 	shadowJar {
+        version = null
 		archiveClassifier = null
         destinationDirectory.set(file("${rootProject.buildDir}/libs"))
+
+        // Change the JAR name if path starts with 'server:{sub-projectName}'
+        if (project.path.startsWith(':server')) {
+            archiveBaseName.set("MCEngine-${project.name}")
+        } else {
+            archiveBaseName.set(project.name)
+        }
 	}
 
     if (project.name == 'mcengine-api') {
