@@ -103,10 +103,11 @@ subprojects {
 dependencies {
     implementation project(path: ':mcengine-api', configuration: 'shadow')
 
-    // Dynamically include all server subprojects
+    // Dynamically include all server projects
     rootProject.subprojects.each { subproject ->
         if (subproject.name != 'mcengine-api' && subproject.name != 'common') {
-            implementation project(path: ":server:${subproject.name}", configuration: 'shadow')
+            def serverProjectPath = subproject.path.startsWith(':server') ? subproject.path : ":server:${subproject.name}"
+            implementation project(path: serverProjectPath, configuration: 'shadow')
         }
     }
 }
