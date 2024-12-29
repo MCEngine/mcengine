@@ -44,6 +44,7 @@ subprojects {
 
 	shadowJar {
 		archiveClassifier = null
+        destinationDirectory.set(file("${rootProject.buildDir}/libs"))
 	}
 
     if (project.name == 'mcengine-api') {
