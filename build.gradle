@@ -102,7 +102,13 @@ subprojects {
 
 dependencies {
     implementation project(path: ':mcengine-api', configuration: 'shadow')
-    implementation project(path: ':spigotmc', configuration: 'shadow')
+
+    // Dynamically include all server subprojects
+    rootProject.subprojects.each { subproject ->
+        if (subproject.name != 'mcengine-api' && subproject.name != 'common') {
+            implementation project(path: ":server:${subproject.name}", configuration: 'shadow')
+        }
+    }
 }
 
 shadowJar {
