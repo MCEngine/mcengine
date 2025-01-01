@@ -50,21 +50,22 @@ public class MCEngineApiUtil extends JavaPlugin {
     /**
      * Invokes a method on the given instance with the specified arguments.
      *
-     * @param instance the object on which the method is to be invoked
+     * @param instance   the object on which the method is to be invoked
      * @param methodName the name of the method to invoke
-     * @param args the arguments to pass to the method
+     * @param args       the arguments to pass to the method
+     * @return the result of the method invocation
      * @throws RuntimeException if the method cannot be found, accessed, or invoked
      */
-    public static void invokeMethod(Object instance, String methodName, Object... args) {
+    public static Object invokeMethod(Object instance, String methodName, Object... args) {
         try {
             // Determine parameter types
             Class<?>[] argTypes = new Class[args.length];
             for (int i = 0; i < args.length; i++) {
                 argTypes[i] = mapWrapperToPrimitive(args[i].getClass());
             }
-    
+
             // Find and invoke the method
-            instance.getClass().getMethod(methodName, argTypes).invoke(instance, args);
+            return instance.getClass().getMethod(methodName, argTypes).invoke(instance, args);
         } catch (Exception e) {
             throw new RuntimeException(
                 "Error invoking method '" + methodName + "': " + e.getMessage(),
