@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class MCEngineApiUtil extends JavaPlugin {
+public class MCEngineApiUtil {
     public static String getEnvOrConfig(JavaPlugin instance, String envVarName, String configKey) {
         try {
             String value = System.getenv(envVarName);
@@ -93,13 +93,13 @@ public class MCEngineApiUtil extends JavaPlugin {
         return clazz;
     }
 
-    public void saveResourceIfNotExists(String resourcePath) {
-        File resourceFile = new File(plugin.getDataFolder(), resourcePath);
+    public void saveResourceIfNotExists(JavaPlugin instance, String resourcePath) {
+        File resourceFile = new File(instance.getDataFolder(), resourcePath);
         if (!resourceFile.exists()) {
-            plugin.saveResource(resourcePath, false); // The 'false' prevents overwriting
-            plugin.getLogger().info("Default resource '" + resourcePath + "' has been saved.");
+            instance.saveResource(resourcePath, false); // The 'false' prevents overwriting
+            instance.getLogger().info("Default resource '" + resourcePath + "' has been saved.");
         } else {
-            plugin.getLogger().info("Resource '" + resourcePath + "' already exists. Skipping save.");
+            instance.getLogger().info("Resource '" + resourcePath + "' already exists. Skipping save.");
         }
     }
 }
