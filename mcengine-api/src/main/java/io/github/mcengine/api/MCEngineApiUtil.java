@@ -1,5 +1,6 @@
 package io.github.mcengine.api;
 
+import java.io.File;
 import java.util.Optional;
 
 import org.bukkit.plugin.java.JavaPlugin;
@@ -36,7 +37,7 @@ public class MCEngineApiUtil extends JavaPlugin {
         if (constructorArgs == null || constructorArgs.length == 0) {
             return clazz.getConstructor().newInstance(); // No-arg constructor
         }
-    
+
         // Determine parameter types
         Class<?>[] parameterTypes = new Class[constructorArgs.length];
         for (int i = 0; i < constructorArgs.length; i++) {
@@ -73,7 +74,7 @@ public class MCEngineApiUtil extends JavaPlugin {
             );
         }
     }
-    
+
     /**
      * Maps a wrapper class to its corresponding primitive type.
      *
@@ -90,5 +91,15 @@ public class MCEngineApiUtil extends JavaPlugin {
         if (clazz == Byte.class) return byte.class;
         if (clazz == Short.class) return short.class;
         return clazz;
-    }      
+    }
+
+    public void saveResourceIfNotExists(String resourcePath) {
+        File resourceFile = new File(plugin.getDataFolder(), resourcePath);
+        if (!resourceFile.exists()) {
+            plugin.saveResource(resourcePath, false); // The 'false' prevents overwriting
+            plugin.getLogger().info("Default resource '" + resourcePath + "' has been saved.");
+        } else {
+            plugin.getLogger().info("Resource '" + resourcePath + "' already exists. Skipping save.");
+        }
+    }
 }
