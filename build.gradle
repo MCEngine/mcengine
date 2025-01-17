@@ -2,6 +2,15 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '8.1.1'
     id 'java'
     id 'maven-publish'
+    id 'signing'
+}
+
+signing {
+    useInMemoryPgpKeys(
+        System.getenv('MCENGINE_GPG_KEY_ID'),
+        System.getenv('MCENGINE_GPG_PASSWORD')
+    )
+    sign publishing.publications
 }
 
 version = project.findProperty("${project.name}-version") ?: 'unspecified'
