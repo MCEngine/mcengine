@@ -25,8 +25,8 @@ fi
 # Generate the GPG key
 echo "Generating GPG key..."
 gpg --batch --generate-key <<EOF
-Key-Type: default
-Key-Length: 2048
+Key-Type: RSA
+Key-Length: 4096
 Name-Real: $GPG_USERNAME
 Name-Email: $GPG_EMAIL
 Expire-Date: 1d
