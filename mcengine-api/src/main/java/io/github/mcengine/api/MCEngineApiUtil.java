@@ -1,8 +1,12 @@
 package io.github.mcengine.api;
 
 import java.io.File;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.List;
+import java.util.logging.Level;
 import java.util.Optional;
-
+import io.github.mcengine.api.MCEngineApiAddon;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class MCEngineApiUtil {
@@ -72,44 +76,6 @@ public class MCEngineApiUtil {
                 "Error invoking method '" + methodName + "': " + e.getMessage(),
                 e
             );
-        }
-    }
-
-    public static void loadAddons(JavaPlugin instance, String gitType) {
-        // Directory to store addons
-        File addonDir = new File(instance.getDataFolder(), "addons");
-        if (!addonDir.exists() && !addonDir.mkdirs()) {
-            instance.getLogger().severe("Failed to create addons directory.");
-            return;
-        }
-    
-        // Get all .jar files in the addons directory
-        File[] files = addonDir.listFiles((dir, name) -> name.toLowerCase().endsWith(".jar"));
-        if (files == null || files.length == 0) {
-            instance.getLogger().info("No addons found to load.");
-            return;
-        }
-    
-        for (File file : files) {
-            try {
-                // Load the addon JAR as a separate class loader
-                URLClassLoader classLoader = new URLClassLoader(new URL[]{file.toURI().toURL()}, instance.getClassLoader());
-    
-                // Assume addon entry class follows a naming convention or is known
-                Class<?> addonClass = Class.forName("io." + gitType + ".mcengine.addon.AddonImpl", true, classLoader);
-    
-                // Check if the class implements the Addon interface
-                if (Addon.class.isAssignableFrom(addonClass)) {
-                    Addon addon = (Addon) addonClass.getDeclaredConstructor().newInstance();
-                    addon.onEnable(instance); // Initialize the addon
-                    instance.getLogger().info("Loaded addon: " + addon.getName());
-                } else {
-                    instance.getLogger().warning("Invalid addon: " + file.getName() + ". It does not implement the Addon interface.");
-                }
-            } catch (Exception e) {
-                // Log and handle errors gracefully
-                instance.getLogger().log(Level.SEVERE, "Failed to load addon: " + file.getName(), e);
-            }
         }
     }
 
