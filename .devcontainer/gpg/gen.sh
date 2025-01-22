@@ -3,6 +3,15 @@
 # Exit immediately if a command exits with a non-zero status
 set -e
 
+# Function to generate a random password
+generate_password() {
+  local length=$1
+  tr -dc 'A-Za-z0-9@#$%&*' < /dev/urandom | head -c "$length"
+}
+
+# Generate a random password of 16 characters
+RANDOM_PASSWORD=$(generate_password 16)
+
 # Install GPG if not already installed
 if ! command -v gpg &> /dev/null; then
   echo "GPG not found. Installing GPG..."
@@ -24,13 +33,12 @@ fi
 
 # Generate the GPG key
 echo "Generating GPG key..."
-gpg --batch --generate-key <<EOF
+gpg --batch --passphrase "$RANDOM_PASSWORD" --pinentry-mode loopback --generate-key <<EOF
 Key-Type: RSA
 Key-Length: 4096
 Name-Real: $GPG_USERNAME
 Name-Email: $GPG_EMAIL
 Expire-Date: 1d
-%no-protection
 EOF
 
 # Retrieve the GPG key ID
@@ -60,6 +68,7 @@ Type: $KEY_TYPE
 Length: $KEY_LENGTH
 Name: $KEY_NAME
 Id: $GPG_KEY_ID
+Password: $RANDOM_PASSWORD
 Email: $KEY_EMAIL
 Expire: $KEY_EXPIRE
 EOF
