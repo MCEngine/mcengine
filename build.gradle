@@ -119,7 +119,16 @@ subprojects {
 
                     pom {
                         name = 'MCEngine'
+                        description = 'An API for MCEngine Project'
                         url = 'https://github.com/MCEngine/mcengine'
+
+                        licenses {
+                            license {
+                                name = 'The MIT License'
+                                url = 'https://github.com/MCEngine/mcengine/blob/master/LICENSE'
+                                distribution = 'repo'
+                            }
+                        }
 
                         scm {
                             connection = 'scm:git:git://github.com/MCEngine/mcengine.git'
@@ -129,7 +138,7 @@ subprojects {
 
                         developers {
                             developer {
-                                id = 'JetsadaWijit'
+                                id = 'jetsadawijit'
                                 name = 'Jetsada Wijit'
                                 email = 'jetsadawijit@outlook.com'
                                 url = 'https://jetsadawijit.github.io'
