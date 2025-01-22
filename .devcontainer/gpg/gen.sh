@@ -56,7 +56,8 @@ GPG_DETAILS=$(gpg --list-keys --with-colons "$GPG_KEY_ID" | grep '^pub')
 
 KEY_TYPE=$(echo "$GPG_DETAILS" | awk -F':' '{print $2}')
 KEY_LENGTH=$(echo "$GPG_DETAILS" | awk -F':' '{print $3}')
-KEY_EXPIRE=$(echo "$GPG_DETAILS" | awk -F':' '{print $7}')
+KEY_EXPIRE_RAW=$(echo "$GPG_DETAILS" | awk -F':' '{print $7}')
+KEY_EXPIRE=$(date -d @"$KEY_EXPIRE_RAW" '+%Y-%m-%d %H:%M:%S')
 KEY_NAME="$GPG_USERNAME"
 KEY_EMAIL="$GPG_EMAIL"
 
