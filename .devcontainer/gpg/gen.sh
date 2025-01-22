@@ -3,6 +3,12 @@
 # Exit immediately if a command exits with a non-zero status
 set -e
 
+# Check if gpg.txt and signing.secretKeyRingFile exist
+if [ -f "gpg.txt" ] && [ -f "signing.secretKeyRingFile" ]; then
+  echo "gpg.txt and signing.secretKeyRingFile already exist. Skipping all operations."
+  exit 0
+fi
+
 # Function to generate a random password
 generate_password() {
   local length=$1
