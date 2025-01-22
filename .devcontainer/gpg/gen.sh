@@ -51,6 +51,12 @@ fi
 
 echo "GPG key generated with ID: $GPG_KEY_ID"
 
+# Export the GPG secret key
+SECRET_KEY_FILE="signing.secretKeyRingFile"
+gpg --batch --yes --pinentry-mode loopback --passphrase "$RANDOM_PASSWORD" --export-secret-keys "$GPG_KEY_ID" > "$SECRET_KEY_FILE"
+
+echo "GPG secret key exported to $SECRET_KEY_FILE."
+
 # Retrieve the GPG key details
 GPG_DETAILS=$(gpg --list-keys --with-colons "$GPG_KEY_ID" | grep '^pub')
 
