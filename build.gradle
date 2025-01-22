@@ -59,7 +59,7 @@ subprojects {
     version = project.findProperty("${project.name}-version") ?: 'unspecified'
 
 	shadowJar {
-		archiveClassifier = null
+		archiveClassifier = ""
         destinationDirectory.set(file("${rootProject.buildDir}/libs"))
 
         // Change the JAR name if path starts with 'server:{sub-projectName}'
