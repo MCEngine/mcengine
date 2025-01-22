@@ -156,8 +156,8 @@ dependencies {
 }
 
 shadowJar {
-    version = null
-    archiveClassifier = null
+    version = version
+    archiveClassifier = ""
     archiveBaseName.set('MCEngine')
 }
 
