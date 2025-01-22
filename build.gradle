@@ -7,8 +7,8 @@ plugins {
 
 signing {
     useInMemoryPgpKeys(
-        System.getenv('MCENGINE_GPG_KEY_ID'),
-        System.getenv('MCENGINE_GPG_PASSWORD')
+        System.getenv('GPG_KEY_ID'),
+        System.getenv('GPG_PASSWORD')
     )
     sign publishing.publications
 }
