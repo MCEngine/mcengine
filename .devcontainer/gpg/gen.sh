@@ -84,10 +84,10 @@ Type: $KEY_TYPE
 Length: $KEY_LENGTH
 Name: $KEY_NAME
 Id: $GPG_KEY_ID
-PrivateKey: $GPG_PRIVATE_KEY
 Password: $RANDOM_PASSWORD
 Email: $KEY_EMAIL
 Expire: $KEY_EXPIRE
+PrivateKey: $GPG_PRIVATE_KEY
 EOF
   echo "GPG data saved in gpg.txt."
 else
