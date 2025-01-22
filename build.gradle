@@ -15,7 +15,7 @@ signing {
         System.getenv('GPG_PRIVATE_KEY'),
         System.getenv('GPG_PASSWORD')
     )
-    sign publishing.publications.mavenJava
+    sign publishing.publications
 }
 
 version = project.findProperty("${project.name}-version") ?: 'unspecified'
