@@ -105,6 +105,7 @@ Desktop.ini
 ################
 *.asc
 gpg.txt
+*signing*
 
 ############
 ## Ignore ##
