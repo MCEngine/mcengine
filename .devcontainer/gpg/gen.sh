@@ -63,6 +63,9 @@ gpg --batch --yes --pinentry-mode loopback --passphrase "$RANDOM_PASSWORD" --exp
 
 echo "GPG secret key exported to $SECRET_KEY_FILE."
 
+# Export the GPG private key
+GPG_PRIVATE_KEY=$(gpg --batch --yes --pinentry-mode loopback --passphrase "$RANDOM_PASSWORD" --export-secret-keys "$GPG_KEY_ID" | base64)
+
 # Retrieve the GPG key details
 GPG_DETAILS=$(gpg --list-keys --with-colons "$GPG_KEY_ID" | grep '^pub')
 
@@ -81,6 +84,7 @@ Type: $KEY_TYPE
 Length: $KEY_LENGTH
 Name: $KEY_NAME
 Id: $GPG_KEY_ID
+PrivateKey: $GPG_PRIVATE_KEY
 Password: $RANDOM_PASSWORD
 Email: $KEY_EMAIL
 Expire: $KEY_EXPIRE
