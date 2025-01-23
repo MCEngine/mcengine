@@ -63,6 +63,9 @@ gpg --batch --yes --pinentry-mode loopback --passphrase "$RANDOM_PASSWORD" --exp
 
 echo "GPG secret key exported to $SECRET_KEY_FILE."
 
+# Export the GPG public key
+GPG_PUBLIC_KEY=$(gpg --armor --export "$GPG_KEY_ID")
+
 # Export the GPG private key
 GPG_PRIVATE_KEY=$(gpg --batch --yes --pinentry-mode loopback --passphrase "$RANDOM_PASSWORD" --export-secret-keys "$GPG_KEY_ID" | base64)
 
@@ -87,6 +90,7 @@ Id: $GPG_KEY_ID
 Password: $RANDOM_PASSWORD
 Email: $KEY_EMAIL
 Expire: $KEY_EXPIRE
+PublicKey: $GPG_PUBLIC_KEY
 PrivateKey: $GPG_PRIVATE_KEY
 EOF
   echo "GPG data saved in gpg.txt."
