@@ -18,8 +18,18 @@ signing {
     sign publishing.publications
 }
 
-version = project.findProperty("${project.name}-version") ?: 'unspecified'
+// Get submodules info, ensure [version, classifier]  property is not null
+def (artifactVersion, artifactClassifier) = getVersion(project.name)
+
+version = artifactVersion
 group = 'io.github.mcengine'
+
+def getVersion(projectName) {
+    // Fetch the version for the project based on its name from the properties
+    def version = project.findProperty("${projectName}-version") ?: 'unspecified'
+    def classifier = project.findProperty("${projectName}-classifier") ?: 'unspecified'
+    return [version, classifier]
+}
 
 allprojects {
     group = 'io.github.mcengine'
@@ -60,11 +70,13 @@ subprojects {
         }
     }
 
-    // Get submodules info, ensure version property is not null
-    version = project.findProperty("${project.name}-version") ?: 'unspecified'
+    // Get submodules info, ensure [version, classifier]  property is not null
+    def (subArtifactVersion, subArtifactClassifier) = getVersion(project.name)
+
+    version = subArtifactVersion
 
 	shadowJar {
-		archiveClassifier = ""
+		archiveClassifier = subArtifactClassifier
         destinationDirectory.set(file("${rootProject.buildDir}/libs"))
 
         // Change the JAR name if path starts with 'server:{sub-projectName}'
@@ -170,8 +182,8 @@ dependencies {
 }
 
 shadowJar {
-    version = version
-    archiveClassifier = ""
+    version = artifactVersion
+    archiveClassifier = artifactClassifier
     archiveBaseName.set('MCEngine')
 }
 
