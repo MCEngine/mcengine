@@ -5,11 +5,6 @@ plugins {
     id 'signing'
 }
 
-java {
-    withJavadocJar()
-    withSourcesJar()
-}
-
 signing {
     useInMemoryPgpKeys(
         System.getenv('GPG_PRIVATE_KEY'),
@@ -107,6 +102,11 @@ subprojects {
     }
 
     if (project.name == 'mcengine-api') {
+        java {
+            withJavadocJar()
+            withSourcesJar()
+        }
+
         apply plugin: 'maven-publish'
         publishing {
             repositories {
