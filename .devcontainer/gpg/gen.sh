@@ -91,11 +91,15 @@ Password: $RANDOM_PASSWORD
 Email: $KEY_EMAIL
 Expire: $KEY_EXPIRE
 
-PublicKey:
+PublicKey
+```
 $GPG_PUBLIC_KEY
+```
 
-PrivateKey:
+PrivateKey
+```
 $GPG_PRIVATE_KEY
+```
 EOF
   echo "GPG data saved in gpg.txt."
 else
