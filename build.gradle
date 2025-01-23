@@ -8,7 +8,6 @@ plugins {
 signing {
     useInMemoryPgpKeys(
         System.getenv('GPG_PRIVATE_KEY'),
-        findProperty("signing.secretKeyRingFile"),
         System.getenv('GPG_PASSWORD')
     )
     sign publishing.publications["mavenCentral"]
