@@ -8,9 +8,10 @@ plugins {
 signing {
     useInMemoryPgpKeys(
         System.getenv('GPG_PRIVATE_KEY'),
+        findProperty("signing.secretKeyRingFile"),
         System.getenv('GPG_PASSWORD')
     )
-    sign publishing.publications
+    sign publishing.publications["mavenCentral"]
 }
 
 // Get submodules info, ensure [version, classifier]  property is not null
