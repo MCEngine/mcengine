@@ -6,8 +6,7 @@
         "version": "none",
         "installMaven": "false",
         "installGradle": "true"
-        },
-        "ghcr.io/devcontainers-contrib/features/ant-sdkman:2": {}
+        }
     },
     "postCreateCommand": "chmod +x .devcontainer/gpg/gen.sh && .devcontainer/gpg/gen.sh",
     "customizations": {
