@@ -6,6 +6,11 @@ import org.bukkit.command.CommandExecutor;
 
 import java.util.List;
 
+/**
+ * Custom implementation of a Bukkit command with permission and execution logic.
+ * This class allows defining a custom command with specific permission requirements
+ * and a custom executor for handling the command's behavior.
+ */
 public class MCEngineApiCommandCustom extends Command {
 
     private final CommandExecutor executor;
@@ -24,6 +29,14 @@ public class MCEngineApiCommandCustom extends Command {
         this.executor = executor;
     }
 
+    /**
+     * Executes the command.
+     *
+     * @param sender        The source of the command.
+     * @param commandLabel  The alias of the command used.
+     * @param args          The arguments passed with the command.
+     * @return True if the command was successfully executed; false otherwise.
+     */
     @Override
     public boolean execute(CommandSender sender, String commandLabel, String[] args) {
         if (permission != null && !sender.hasPermission(permission)) {
@@ -34,6 +47,14 @@ public class MCEngineApiCommandCustom extends Command {
         return executor.onCommand(sender, this, commandLabel, args);
     }
 
+    /**
+     * Provides tab completion suggestions for the command.
+     *
+     * @param sender  The source of the command.
+     * @param alias   The alias of the command used.
+     * @param args    The arguments passed with the command.
+     * @return A list of tab completion suggestions or an empty list if none are available.
+     */
     @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) {
         return super.tabComplete(sender, alias, args);

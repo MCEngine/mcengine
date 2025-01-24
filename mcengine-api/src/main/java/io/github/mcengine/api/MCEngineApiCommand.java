@@ -10,11 +10,22 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The MCEngineApiCommand class provides functionality for dynamically registering
+ * and managing custom commands in a Bukkit-based Minecraft plugin. It utilizes
+ * reflection to interact with the server's command map and ensures commands
+ * are registered with permissions and executors.
+ */
 public class MCEngineApiCommand {
 
     private final JavaPlugin plugin;
     private final Map<String, CommandExecutor> registeredCommands = new HashMap<>();
 
+    /**
+     * Creates a new instance of the MCEngineApiCommand class.
+     *
+     * @param plugin The JavaPlugin instance associated with this command manager.
+     */
     public MCEngineApiCommand(JavaPlugin plugin) {
         this.plugin = plugin;
     }

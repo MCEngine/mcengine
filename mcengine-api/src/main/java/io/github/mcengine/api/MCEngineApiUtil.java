@@ -9,7 +9,20 @@ import java.util.Optional;
 import io.github.mcengine.api.MCEngineApiAddon;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * Utility class for various API-related operations in the MCEngine plugin.
+ * This class provides helper methods to retrieve environment variables, initialize classes,
+ * invoke methods, map wrapper classes to primitives, and manage plugin resource files.
+ */
 public class MCEngineApiUtil {
+    /**
+     * Retrieves an environment variable value or a fallback value from the plugin's configuration.
+     *
+     * @param instance     the JavaPlugin instance
+     * @param envVarName   the name of the environment variable
+     * @param configKey    the configuration key to use as a fallback
+     * @return the value of the environment variable or configuration key, or null if neither exists
+     */
     public static String getEnvOrConfig(JavaPlugin instance, String envVarName, String configKey) {
         try {
             String value = System.getenv(envVarName);
@@ -97,6 +110,12 @@ public class MCEngineApiUtil {
         return clazz;
     }
 
+    /**
+     * Saves a resource file from the plugin's JAR to the data folder if it doesn't already exist.
+     *
+     * @param instance     the JavaPlugin instance
+     * @param resourcePath the path of the resource file to save
+     */
     public void saveResourceIfNotExists(JavaPlugin instance, String resourcePath) {
         File resourceFile = new File(instance.getDataFolder(), resourcePath);
         if (!resourceFile.exists()) {

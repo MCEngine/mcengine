@@ -8,6 +8,13 @@ import java.net.URLClassLoader;
 import java.util.List;
 import java.util.logging.Level;
 
+/**
+ * A generic API addon loader for Minecraft plugins.
+ * <p>
+ * This class facilitates loading and managing addons that implement a specified interface.
+ *
+ * @param <T> The type of the addon interface that all addons must implement.
+ */
 public class MCEngineApiAddon<T> {
 
     private final JavaPlugin plugin;
