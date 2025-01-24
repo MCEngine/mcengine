@@ -7,3 +7,7 @@ dependencies {
     compileOnly 'org.xerial:sqlite-jdbc:3.47.1.0'
     compileOnly 'mysql:mysql-connector-java:8.0.33'    
 }
+
+shadowJar {
+    archiveBaseName = 'MCEngine-Api'
+}
