@@ -135,7 +135,6 @@ subprojects {
                             license {
                                 name = 'The MIT License'
                                 url = 'https://github.com/MCEngine/mcengine/blob/master/LICENSE'
-                                distribution = 'repo'
                             }
                         }
 
