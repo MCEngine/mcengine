@@ -129,6 +129,10 @@ subprojects {
                 mavenJava(MavenPublication) {
                     artifact(tasks.named('shadowJar').get())
 
+                    // Attach additional artifacts
+                    artifact(tasks.named('javadocJar').get())
+                    artifact(tasks.named('sourcesJar').get())
+
                     pom {
                         name = 'MCEngine'
                         description = 'An API for MCEngine Project'
