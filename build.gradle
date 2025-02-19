@@ -105,18 +105,6 @@ subprojects {
                         password = System.getenv('MCENGINE_GITHUB_TOKEN_PKG')
                     }
                 }
-
-                // Maven Central
-                maven {
-                    name = 'MavenCentral'
-                    url = uri(subArtifactClassifier == 'RELEASE' ? 
-                    'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/' :
-                    'https://s01.oss.sonatype.org/content/repositories/snapshots/')
-                    credentials {
-                        username = System.getenv('SONATYPE_USERNAME')
-                        password = System.getenv('SONATYPE_PASSWORD')
-                    }
-                }
             }
             publications {
                 mavenJava(MavenPublication) {
@@ -156,13 +144,6 @@ subprojects {
                 }
             }
         }
-        signing {
-            useInMemoryPgpKeys(
-                System.getenv('GPG_PRIVATE_KEY'),
-                System.getenv('GPG_PASSWORD')
-            )
-            sign publishing.publications["mavenJava"]
-        }
     }
 }
 
@@ -189,4 +170,5 @@ shadowJar {
 tasks.named('jar').configure {
     enabled = false
 }
+
 build.dependsOn(shadowJar)
