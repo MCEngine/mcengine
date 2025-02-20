@@ -13,7 +13,7 @@ public interface MCEngineApiAddonInterface {
     /**
      * Called when the addon is deactivated.
      */
-    void onDisactivate();
+    void onDeactivate();
     
     /**
      * Gets the name of the addon.
