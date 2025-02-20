@@ -1,6 +1,6 @@
 name: MCEngine
 version: ${version}
-main: io.github.mcengine.MCEngine
+main: io.github.mcengine.mcengine.spigotmc.MCEngine
 author: MCEngine
 description: MCEngine Core
 api-version: 1.18

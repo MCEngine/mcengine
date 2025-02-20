@@ -1,6 +1,6 @@
-package io.github.mcengine.api.database.mysql;
+package io.github.mcengine.mcengine.api.database.mysql;
 
-import io.github.mcengine.api.database.MCEngineApiDatabaseProvider;
+import io.github.mcengine.mcengine.api.database.MCEngineApiDatabaseProvider;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

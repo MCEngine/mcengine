@@ -1,4 +1,4 @@
-package io.github.mcengine;
+package io.github.mcengine.mcengine.spigotmc;
 
 import org.bukkit.plugin.java.JavaPlugin;
 

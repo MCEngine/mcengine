@@ -1,4 +1,4 @@
-package io.github.mcengine.api;
+package io.github.mcengine.mcengine.api;
 
 import java.io.File;
 import java.net.URL;
@@ -6,7 +6,7 @@ import java.net.URLClassLoader;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.Optional;
-import io.github.mcengine.api.MCEngineApiAddon;
+import io.github.mcengine.mcengine.api.MCEngineApiAddon;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -15,6 +15,12 @@ import org.bukkit.plugin.java.JavaPlugin;
  * invoke methods, map wrapper classes to primitives, and manage plugin resource files.
  */
 public class MCEngineApiUtil {
+
+    // Private constructor to prevent instantiation
+    private MCEngineApiUtil() {
+        throw new UnsupportedOperationException("MCEngineApiUtil is a utility class and cannot be instantiated.");
+    }
+
     /**
      * Retrieves an environment variable value or a fallback value from the plugin's configuration.
      *
