@@ -1,11 +1,24 @@
+/**
+ * This is the build script for the MCEngine-SpigotMC plugin.
+ * It uses the Java plugin and includes dependencies for Spigot API.
+ */
+
 plugins {
-    id 'java'
+    id 'java' // Applies the Java plugin for building the project
 }
 
 dependencies {
+    /**
+     * Adds Spigot API as a compile-time dependency.
+     * 'compileOnly' ensures it is only used for compilation and not included in the final JAR.
+     */
     compileOnly 'org.spigotmc:spigot-api:1.21.3-R0.1-SNAPSHOT'
 }
 
 shadowJar {
+    /**
+     * Configures the Shadow JAR plugin.
+     * Sets the base name for the generated JAR file.
+     */
     archiveBaseName = 'MCEngine-SpigotMC'
 }

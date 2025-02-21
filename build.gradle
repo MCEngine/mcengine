@@ -5,14 +5,14 @@ plugins {
     id 'signing'
 }
 
-// Get submodules info, ensure [version, classifier]  property is not null
+// Get submodule information, ensuring [version, classifier] are not null
 def (artifactVersion, artifactClassifier) = getVersion(project.name)
 
 version = artifactVersion
 group = 'io.github.mcengine'
 
+// Function to retrieve the version and classifier for a project
 def getVersion(projectName) {
-    // Fetch the version for the project based on its name from the properties
     def version = project.findProperty("${projectName}-version") ?: 'unspecified'
     def classifier = project.findProperty("${projectName}-classifier") ?: 'unspecified'
     return [version, classifier]
@@ -27,11 +27,8 @@ allprojects {
     repositories {
         mavenCentral()
         mavenLocal()
-          maven {
+        maven {
             url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
-
-            // As of Gradle 5.1, you can limit this to only those
-            // dependencies you expect from it
             content {
                 includeGroup 'org.bukkit'
                 includeGroup 'org.spigotmc'
@@ -46,28 +43,25 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'signing'
 
-    // Disable the 'jar' task if needed
-    tasks.named('jar').configure {
-        enabled = false
-    }
+    // Disable the default JAR task to avoid conflicts
+    tasks.named('jar').configure { enabled = false }
 
+    // Disable shadowJar for excluded projects
     def excludeBuildProjects = [':server']
     if (project.path in excludeBuildProjects) {
-        tasks.matching { it.name == 'shadowJar' }.configureEach {
-            enabled = false
-        }
+        tasks.matching { it.name == 'shadowJar' }.configureEach { enabled = false }
     }
 
-    // Get submodules info, ensure [version, classifier]  property is not null
+    // Get submodule information
     def (subArtifactVersion, subArtifactClassifier) = getVersion(project.name)
-
     version = subArtifactVersion
 
-	shadowJar {
-		archiveClassifier = subArtifactClassifier
+    shadowJar {
+        archiveClassifier = subArtifactClassifier
         destinationDirectory.set(file("${rootProject.buildDir}/libs"))
-	}
+    }
 
+    // Configure dependencies for server-related projects
     if (project.path.startsWith(':server:')) {
         dependencies {
             implementation project(path: ':mcengine-api', configuration: 'shadow')
@@ -75,7 +69,7 @@ subprojects {
         }
     }
 
-    // Bukkit server specific configuration
+    // Bukkit-specific configuration
     if (project.name == 'spigotmc') {
         processResources {
             def props = [version: version]
@@ -87,6 +81,7 @@ subprojects {
         }
     }
 
+    // Maven publishing configuration for mcengine-api
     if (project.name == 'mcengine-api') {
         java {
             withJavadocJar()
@@ -94,23 +89,22 @@ subprojects {
         }
 
         apply plugin: 'maven-publish'
+
         publishing {
             repositories {
-                // GitHub Package
                 maven {
                     name = 'GitHubPackages'
                     url = uri('https://maven.pkg.github.com/MCEngine/mcengine')
                     credentials {
                         username = System.getenv('GIT_USERNAME')
-                        password = System.getenv('MCENGINE_GITHUB_TOKEN_PKG_PUBLISH_MCENGINE') ?: System.getenv('MCENGINE_GITHUB_TOKEN_PKG_PUBLISH')
+                        password = System.getenv('MCENGINE_GITHUB_TOKEN_PKG_PUBLISH_MCENGINE') ?: 
+                                  System.getenv('MCENGINE_GITHUB_TOKEN_PKG_PUBLISH')
                     }
                 }
             }
             publications {
                 mavenJava(MavenPublication) {
                     artifact(tasks.named('shadowJar').get())
-
-                    // Attach additional artifacts
                     artifact(tasks.named('javadocJar').get())
                     artifact(tasks.named('sourcesJar').get())
 
@@ -151,7 +145,7 @@ dependencies {
     implementation project(path: ':mcengine-api', configuration: 'shadow')
     implementation project(path: ':common', configuration: 'shadow')
 
-    // Dynamically include all server projects
+    // Include all relevant server subprojects
     rootProject.subprojects.each { subproject ->
         if (subproject.name != 'mcengine-api' && subproject.name != 'common') {
             def serverProjectPath = subproject.path.startsWith(':server') ? subproject.path : ":server:${subproject.name}"
@@ -160,15 +154,15 @@ dependencies {
     }
 }
 
+// Shadow JAR configuration
 shadowJar {
     version = artifactVersion
     archiveClassifier = artifactClassifier
     archiveBaseName.set('MCEngine')
 }
 
-// Disable the 'jar' task if needed
-tasks.named('jar').configure {
-    enabled = false
-}
+// Disable the default JAR task
+tasks.named('jar').configure { enabled = false }
 
+// Ensure the build process depends on shadowJar
 build.dependsOn(shadowJar)
