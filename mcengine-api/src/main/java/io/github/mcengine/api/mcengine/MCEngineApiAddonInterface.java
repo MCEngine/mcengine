@@ -1,4 +1,4 @@
-package io.github.mcengine.mcengine.api;
+package io.github.mcengine.api.mcengine;
 
 /**
  * Interface that all MCEngine API addons must implement.

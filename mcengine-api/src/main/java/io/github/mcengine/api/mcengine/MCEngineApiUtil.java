@@ -1,4 +1,4 @@
-package io.github.mcengine.mcengine.api;
+package io.github.mcengine.api.mcengine;
 
 import java.io.File;
 import java.net.URL;
@@ -6,7 +6,7 @@ import java.net.URLClassLoader;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.Optional;
-import io.github.mcengine.mcengine.api.MCEngineApiAddon;
+import io.github.mcengine.api.mcengine.MCEngineApiAddon;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**

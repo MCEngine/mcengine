@@ -1,7 +1,7 @@
-package io.github.mcengine.mcengine.api.database;
+package io.github.mcengine.api.mcengine.database;
 
-import io.github.mcengine.mcengine.api.database.mysql.MCEngineApiMYSQL;
-import io.github.mcengine.mcengine.api.database.sqlite.MCEngineApiSQLITE;
+import io.github.mcengine.api.mcengine.database.mysql.MCEngineApiMYSQL;
+import io.github.mcengine.api.mcengine.database.sqlite.MCEngineApiSQLITE;
 
 class MCEngineApiDatabase {
     private final MCEngineApiDatabaseProvider databaseProvider;
