@@ -14,11 +14,7 @@
                 "workbench.colorTheme": "Default Dark Modern"
             },
             "extensions": [
-                "alefragnani.bookmarks",
-                "vscjava.vscode-java-pack",
-                "redhat.java",
-                "vscjava.vscode-gradle",
-                "eamodio.gitlens"
+                "MCEngine.mcengine-vscode-extension-pack"
             ]
         }
     }
